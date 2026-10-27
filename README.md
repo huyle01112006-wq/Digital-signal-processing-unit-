@@ -25,5 +25,3 @@ A 3-band digital audio equalizer design implementing a pipelined serial FIR filt
 │   ├── coeff_mid.mem        # Q1.15 coefficient memory file for Midrange band
 │   └── coeff_treble.mem     # Q1.15 coefficient memory file for Treble band
 └── README.md
-<img width="1461" height="200" alt="Ảnh chụp màn hình 2026-10-27 145957" src="https://github.com/user-attachments/assets/74d96776-2768-4d8a-9095-3d1e17513feb" />
-<Functional DSP unit which implement completely following on the set of 144000 samples basing on frequency = 48 kHz within 3 seconds>
