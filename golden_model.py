@@ -6,7 +6,7 @@ Golden model fixed-point (bit-accurate)
   python golden_model.py compare  output_audio.mem           so với golden_output.mem
   python golden_model.py mem2wav  output_audio.mem output_processed.wav
 
-QUY ƯỚC PHẦN CỨNG (Verilog phải làm đúng như vậy thì mới khớp từng mẫu):
+QUY ƯỚC PHẦN CỨNG :
   1. acc = sum(h[k] * x[n-k])  (signed, accumulator rộng >= 40 bit)
   2. y_fir = saturate16(acc >>> 15)          (dịch phải SỐ HỌC, cắt bớt, không làm tròn)
   3. y_g   = saturate16((y_fir * gain_q) >>> GAIN_FRAC),  gain_q = round(gain * 2^GAIN_FRAC)
