@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 __pycache__/
 *.pyc
+=======
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.Xil/
+>>>>>>> 63dcc8616632f1aa5a0d214477537fbe4ab469f8
