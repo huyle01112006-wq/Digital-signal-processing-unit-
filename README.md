@@ -1,26 +1,29 @@
 # 3-Band Digital Audio Equalizer on Arty Z7-20 FPGA
 
-Dự án triển khai bộ lọc cân bằng âm thanh số (Digital Audio Equalizer) 3 băng tần sử dụng kiến trúc bộ lọc FIR nối tiếp trên bo mạch phát triển FPGA Digilent Arty Z7-20 (Zynq-7000 SoC).
+A 3-band digital audio equalizer design implementing a pipelined serial FIR filter architecture on the Digilent Arty Z7-20 FPGA development board (AMD/Xilinx Zynq-7000 SoC).
 
-## 🚀 Tính năng chính
-- **Kiến trúc Serial FIR:** Sử dụng chung một khối MAC (Multiply-Accumulate) với số bậc N=255, giúp tiết kiệm tối đa tài nguyên Logic Cells trên FPGA.
-- **Tối ưu Pipeline phần cứng:** Tận dụng các tầng thanh ghi trong khối DSP48 (`MREG`, `PREG`) nhằm bẻ gãy đường logic tổ hợp dài, giúp mạch đạt tiêu chuẩn Timing Closure (WNS > 0) tại chu kỳ xung nhịp tối ưu.
-- **Xử lý số học cố định (Fixed-Point):** Sử dụng định dạng Q1.15 kết hợp cơ chế bão hòa biên độ (Saturation Logic) chống tràn dữ liệu.
-- 
-## 🛠️ Môi trường phát triển
-- **Công cụ thiết kế:** Xilinx/AMD Vivado 2024.2
-- **Thiết bị mục tiêu (Target Device):** `xc7z020clg400-1` (Arty Z7-20)
-- **Ngôn ngữ:** Verilog HDL
+## 🚀 Key Features
+- **Serial FIR Architecture:** Shares a single Multiply-Accumulate (MAC) unit across order $N=255$ filter taps, minimizing FPGA logic cell utilization.
+- **Hardware Pipeline Optimization:** Fully utilizes internal DSP48 pipeline register stages (`MREG`, `PREG`) to break long combinational timing paths, achieving complete Timing Closure (WNS > 0) at the target clock period (15 ns).
+- **Fixed-Point Processing:** Uses Q1.15 fixed-point representation combined with saturation logic to prevent arithmetic overflow during accumulator shifts.
+- **Visual Output Monitoring:** Real-time visual audio level representation via onboard LEDs using peak detection logic.
 
-## 📂 Cấu trúc thư mục dự án
+## 🛠️ Development Environment
+- **EDA Tool:** AMD/Xilinx Vivado 2024.2
+- **Target Device:** `xc7z020clg400-1` (Arty Z7-20)
+- **HDL Language:** Verilog HDL
+
+## 📂 Repository Structure
 ```text
 ├── src/
-│   ├── arty_top.v           # Module cấp cao (Top-level), quản lý xung nhịp, reset và LED // nhắm khắc phục tính trạng đầu vào khối xử lý yêu cầu 84 chân nhiều hơn chân board.
-│   └── filter_control.v     # Điều khiển bộ lọc FIR, tích hợp Pipeline DSP48 đầy đủ
+│   ├── arty_top.v           # Top-level module: manages clocks, reset, onboard LEDs, and multiplexes internal buses to solve physical IO pin limitations
+│   └── filter_control.v     # Pipelined FIR filter controller with full DSP48 register inferencing
 ├── constraints/
-│   └── arty_z7.xdc          # Ràng buộc phần cứng, định nghĩa chân và chu kỳ clock (15ns)
+│   └── arty_z7.xdc          # Hardware constraints defining physical pin locations and clock period (15ns)
 ├── data/
-│   ├── coeff_bass.mem       # Bảng hệ số bộ lọc dải Bass
-│   ├── coeff_mid.mem        # Bảng hệ số bộ lọc dải Mid
-│   └── coeff_treble.mem     # Bảng hệ số bộ lọc dải Treble
+│   ├── coeff_bass.mem       # Q1.15 coefficient memory file for Bass band
+│   ├── coeff_mid.mem        # Q1.15 coefficient memory file for Midrange band
+│   └── coeff_treble.mem     # Q1.15 coefficient memory file for Treble band
 └── README.md
+<img width="1461" height="200" alt="Ảnh chụp màn hình 2026-10-27 145957" src="https://github.com/user-attachments/assets/74d96776-2768-4d8a-9095-3d1e17513feb" />
+<Functional DSP unit which implement completely following on the set of 144000 samples basing on frequency = 48 kHz within 3 seconds>
